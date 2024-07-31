@@ -19,8 +19,15 @@ public class BlogService {
         return blogRepository.save(request.toEntity());
     }
 
-    // 블로그 글 조회 메서드
+    // 블로그 글 목록 조회 메서드
     public List<Article> findAll() {
         return blogRepository.findAll();
+    }
+
+    // 블로그 글 조회 메서드
+    public Article findById(Long id) {
+        return blogRepository.findById(id)
+                // 없으면 IllegalArgumentException 예외 발생
+                .orElseThrow(() -> new IllegalArgumentException("not found: " + id));
     }
 }

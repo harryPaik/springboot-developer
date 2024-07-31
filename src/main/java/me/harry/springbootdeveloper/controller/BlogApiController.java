@@ -38,4 +38,15 @@ public class BlogApiController {
         return ResponseEntity.ok()
                 .body(articles);
     }
+
+    @GetMapping("/api/articles/{id}")
+    // URL 경로에서 값 추출
+    public ResponseEntity<ArticleResponse> findArticle(@PathVariable long id) {
+        // URL 에서 {id}에 해당하는 값이 인자로 들어옴
+        // @PathVariable: URL 에서 값을 가져오는 애너테이션
+        Article article = blogService.findById(id);
+
+        return ResponseEntity.ok()
+                .body(new ArticleResponse(article));
+    }
 }
