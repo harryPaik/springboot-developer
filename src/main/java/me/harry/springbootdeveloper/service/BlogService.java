@@ -1,8 +1,10 @@
 package me.harry.springbootdeveloper.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import me.harry.springbootdeveloper.domain.Article;
 import me.harry.springbootdeveloper.dto.AddArticleRequest;
+import me.harry.springbootdeveloper.dto.UpdateArticleRequest;
 import me.harry.springbootdeveloper.repository.BlogRepository;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +36,18 @@ public class BlogService {
     // 블로그 글 삭제 메서드
     public void delete(long id) {
         blogRepository.deleteById(id);
+    }
+
+    // 블로그 글 수정 메서드
+    @Transactional
+    // @Transactional: 매칭한 메서드를 하나의 트랜잭션으로 묶는 역할
+    // 트랜잭션: 데이터베이스의 데이터 값을 바꾸기 위해 묶은 작업의 단위
+    public Article update(long id, UpdateArticleRequest request) {
+        Article article = blogRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("not found: " + id));
+
+        article.update(request.getTitle(), request.getContent());
+
+        return article;
     }
 }
