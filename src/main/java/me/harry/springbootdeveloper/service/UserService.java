@@ -23,4 +23,10 @@ public class UserService {
                 .build()).getId();
     }
 
+    // RefreshToken 을 전달받아 토큰 제공자를 사용해 새로운 Access Token 을 만드는 서비스
+    public User findById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
+    }
+
 }
